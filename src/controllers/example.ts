@@ -1,9 +1,9 @@
 import {injectable, registry, inject, container} from 'tsyringe';
-import {Controller, Action, HttpMethod} from 'tsyringe-express';
+import {Controller, Action, HttpMethod} from '../config/decorators';
 import { ITodoUseCase } from '../interfaces'
 import TodoUseCase from '../use-cases/TodoUseCase'
 import TodoCustomUseCase from '../use-cases/TodoCustomUseCase'
-import { Request, Response, NextFunction} from 'express';
+import { Request, Response } from 'express';
 
 /**
  * Controlador, que escucha la ruta '/api'
@@ -11,7 +11,7 @@ import { Request, Response, NextFunction} from 'express';
  *  Dependiendo si un parametro en el body viene en true, uso un Caso de Uso, sino uso uno Custom
  *  Se resuelve en el request mismo.
  */
-@Controller({ route: "/api" })
+@Controller()
 @injectable()
 @registry([
     {
@@ -23,7 +23,7 @@ import { Request, Response, NextFunction} from 'express';
         useClass: TodoCustomUseCase
       }
   ])
-export default class ExampleController {
+export default class ApiController {
  
     /**
      * Constructor con sus dependencias del tipo ITodoUseCase
@@ -34,7 +34,6 @@ export default class ExampleController {
      * addTodos action, escucha la ruta  POST '/api/todos'
      */
     @Action({
-        route: "/todos",
         method: HttpMethod.POST,
         middlewares: [
             function (req, res, next) {
@@ -43,7 +42,7 @@ export default class ExampleController {
             }
         ]
     })
-    public addTodosAction(req: Request, res: Response) {
+    public add_todos_action(req: Request, res: Response) {
         // TODO esta bien que el controller decida esto? que useCase deberia usar... si por ejemplo
         // tengo que decidir esto con alguna llamada a a base de datos, pq tengo que revisar parametros en una tabla
         // el controller no tiene accesso a la DB. 
@@ -62,7 +61,6 @@ export default class ExampleController {
      * Should have express Request and Response as parameters
      */
     @Action({
-        route: "/todos",
         method: HttpMethod.GET,
         middlewares: [
             function (req, res, next) {
@@ -70,7 +68,7 @@ export default class ExampleController {
             }
         ]
     })
-    public getTodosAction(req: Request, res: Response) {
+    public get_todos_action(req: Request, res: Response) {
         let mytodos: string[] = [];
         this.adduseCase.getTodos().forEach(todo => {
             mytodos.push(todo);

@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { attachController } from "tsyringe-express";
+import { attachController } from "./config/decorators";
 import { container, instanceCachingFactory } from "tsyringe";
 import express = require('express');
 import bodyParser from 'body-parser';

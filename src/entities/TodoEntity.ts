@@ -8,15 +8,16 @@ export default class TodoEntity implements ITodoEntity {
         this.todo = '';
     }
 
-    private isValid = (string: string) => {
+    private isValid(string: string) {
         return !!string.length;
     }
 
-    getTodo = () => {
+
+    getTodo() {
         return this.todo;
     }
 
-    setTodo = (todo: string) => {
+    setTodo(todo: string) {
         if (this.isValid(todo)) {
             this.todo = todo;
         } else {
